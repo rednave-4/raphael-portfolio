@@ -141,4 +141,4 @@ export const translations = {
   },
 } as const;
 
-export type TranslationKey = typeof translations.id;
+export type TranslationKey = (typeof translations)[Locale];
