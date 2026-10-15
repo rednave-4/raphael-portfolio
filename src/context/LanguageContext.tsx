@@ -1,12 +1,12 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
-import { translations, Locale, TranslationKey } from "@/data/translations";
+import { translations, Locale } from "@/data/translations";
 
 interface LanguageContextType {
   locale: Locale;
   setLocale: (locale: Locale) => void;
-  t: TranslationKey;
+  t: (typeof translations)["id"];
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
@@ -26,7 +26,8 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     localStorage.setItem("locale", next);
   };
 
-  const t = translations[locale];
+  // Cast agar TypeScript tidak complain perbedaan literal type ID vs EN
+  const t = translations[locale] as (typeof translations)["id"];
 
   return (
     <LanguageContext.Provider value={{ locale, setLocale, t }}>
